@@ -54,7 +54,7 @@ function AddProof() {
     if (!user) return;
     const parsed = schema.safeParse(form);
     if (!parsed.success) {
-      toast.error(parsed.error.issues[0].message);
+      toast.error(parsed.error.issues[0]?.message ?? "Please complete the form");
       return;
     }
     setSaving(true);

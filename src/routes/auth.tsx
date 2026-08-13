@@ -98,7 +98,10 @@ function AuthPage() {
       if (error) throw error;
       navigate({ to: "/home" });
     } catch (err) {
-      const message = err instanceof z.ZodError ? err.issues[0].message : (err as Error).message;
+      const message =
+        err instanceof z.ZodError
+          ? (err.issues[0]?.message ?? "Invalid details")
+          : (err as Error).message;
       toast.error(message);
     } finally {
       setLoading(false);
