@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Bell } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { EmptyState } from "@/components/EmptyState";
-import { useAuth } from "@/hooks/use-auth";
+import { useSession } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import type { Notification } from "@/lib/skillgraph";
 
@@ -20,7 +20,7 @@ export const Route = createFileRoute("/_authenticated/notifications")({
 });
 
 function NotificationsPage() {
-  const { user } = useAuth();
+  const { user } = useSession();
   const { data } = useQuery({
     queryKey: ["notifications", user?.id],
     enabled: !!user,

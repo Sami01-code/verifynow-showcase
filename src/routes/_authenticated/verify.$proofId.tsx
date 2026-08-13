@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useAuth } from "@/hooks/use-auth";
+import { useSession } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { VERIFIER_TYPES, type Proof } from "@/lib/skillgraph";
 
@@ -26,7 +26,7 @@ export const Route = createFileRoute("/_authenticated/verify/$proofId")({
 
 function VerifyPage() {
   const { proofId } = Route.useParams();
-  const { user } = useAuth();
+  const { user } = useSession();
   const navigate = useNavigate();
   const [type, setType] = useState<string>(VERIFIER_TYPES[0] ?? "Client");
   const [name, setName] = useState("");

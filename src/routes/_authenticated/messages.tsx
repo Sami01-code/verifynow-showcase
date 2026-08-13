@@ -7,7 +7,7 @@ import { EmptyState } from "@/components/EmptyState";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/hooks/use-auth";
+import { useSession } from "@/hooks/use-auth";
 import { supabase } from "@/integrations/supabase/client";
 import { initials, type Message, type Profile } from "@/lib/skillgraph";
 
@@ -24,7 +24,7 @@ export const Route = createFileRoute("/_authenticated/messages")({
 });
 
 function MessagesPage() {
-  const { user } = useAuth();
+  const { user } = useSession();
   const qc = useQueryClient();
   const [active, setActive] = useState<string | null>(null);
   const [text, setText] = useState("");
@@ -37,7 +37,7 @@ function MessagesPage() {
         supabase
           .from("messages")
           .select("*")
-          .or(`sender_id.eq.${user!.id},recipient_id.eq.${user!.id}`)
+          .or(`sender_id.eq.${user!.id},receiver_id.eq.${user!.id}`)
           .order("created_at", { ascending: true }),
         supabase.from("profiles").select("*").neq("id", user!.id).limit(8),
       ]);
@@ -48,12 +48,12 @@ function MessagesPage() {
   const people = data?.people ?? [];
   const current = active ?? people[0]?.id ?? null;
   const thread = (data?.messages ?? []).filter(
-    (m) => m.sender_id === current || m.recipient_id === current,
+    (m) => m.sender_id === current || m.receiver_id === current,
   );
 
   async function send() {
     if (!text.trim() || !current || !user) return;
-    await supabase.from("messages").insert({ sender_id: user.id, recipient_id: current, body: text.trim() });
+    await supabase.from("messages").insert({ sender_id: user.id, receiver_id: current, message: text.trim() });
     setText("");
     qc.invalidateQueries({ queryKey: ["messages", user.id] });
   }
@@ -108,7 +108,7 @@ function MessagesPage() {
                       : "bg-muted text-foreground"
                   }`}
                 >
-                  {m.body}
+                  {m.message}
                 </div>
               ))}
             </div>
