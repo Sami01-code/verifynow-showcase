@@ -17,9 +17,14 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as AuthenticatedAddProofRouteImport } from './routes/_authenticated/add-proof'
 import { Route as AuthenticatedHomeRouteImport } from './routes/_authenticated/home'
+import { Route as AuthenticatedMessagesRouteImport } from './routes/_authenticated/messages'
+import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
 import { Route as ProofProofIdRouteImport } from './routes/proof.$proofId'
 import { Route as UUsernameRouteImport } from './routes/u.$username'
+import { Route as AuthenticatedVerifyProofIdRouteImport } from './routes/_authenticated/verify.$proofId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -60,9 +65,30 @@ const AuthenticatedHomeRoute = AuthenticatedHomeRouteImport.update({
   path: '/home',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMessagesRoute = AuthenticatedMessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNotificationsRoute =
+  AuthenticatedNotificationsRouteImport.update({
+    id: '/notifications',
+    path: '/notifications',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedOnboardingRoute = AuthenticatedOnboardingRouteImport.update({
   id: '/onboarding',
   path: '/onboarding',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const ProofProofIdRoute = ProofProofIdRouteImport.update({
@@ -75,6 +101,12 @@ const UUsernameRoute = UUsernameRouteImport.update({
   path: '/u/$username',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedVerifyProofIdRoute =
+  AuthenticatedVerifyProofIdRouteImport.update({
+    id: '/verify/$proofId',
+    path: '/verify/$proofId',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -84,9 +116,14 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/add-proof': typeof AuthenticatedAddProofRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/messages': typeof AuthenticatedMessagesRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/proof/$proofId': typeof ProofProofIdRoute
   '/u/$username': typeof UUsernameRoute
+  '/verify/$proofId': typeof AuthenticatedVerifyProofIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -96,9 +133,14 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/add-proof': typeof AuthenticatedAddProofRoute
   '/home': typeof AuthenticatedHomeRoute
+  '/messages': typeof AuthenticatedMessagesRoute
+  '/notifications': typeof AuthenticatedNotificationsRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/settings': typeof AuthenticatedSettingsRoute
   '/proof/$proofId': typeof ProofProofIdRoute
   '/u/$username': typeof UUsernameRoute
+  '/verify/$proofId': typeof AuthenticatedVerifyProofIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -110,9 +152,14 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/_authenticated/add-proof': typeof AuthenticatedAddProofRoute
   '/_authenticated/home': typeof AuthenticatedHomeRoute
+  '/_authenticated/messages': typeof AuthenticatedMessagesRoute
+  '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/proof/$proofId': typeof ProofProofIdRoute
   '/u/$username': typeof UUsernameRoute
+  '/_authenticated/verify/$proofId': typeof AuthenticatedVerifyProofIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -124,9 +171,14 @@ export interface FileRouteTypes {
     | '/search'
     | '/add-proof'
     | '/home'
+    | '/messages'
+    | '/notifications'
     | '/onboarding'
+    | '/profile'
+    | '/settings'
     | '/proof/$proofId'
     | '/u/$username'
+    | '/verify/$proofId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -136,9 +188,14 @@ export interface FileRouteTypes {
     | '/search'
     | '/add-proof'
     | '/home'
+    | '/messages'
+    | '/notifications'
     | '/onboarding'
+    | '/profile'
+    | '/settings'
     | '/proof/$proofId'
     | '/u/$username'
+    | '/verify/$proofId'
   id:
     | '__root__'
     | '/'
@@ -149,9 +206,14 @@ export interface FileRouteTypes {
     | '/search'
     | '/_authenticated/add-proof'
     | '/_authenticated/home'
+    | '/_authenticated/messages'
+    | '/_authenticated/notifications'
     | '/_authenticated/onboarding'
+    | '/_authenticated/profile'
+    | '/_authenticated/settings'
     | '/proof/$proofId'
     | '/u/$username'
+    | '/_authenticated/verify/$proofId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -223,11 +285,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHomeRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/messages': {
+      id: '/_authenticated/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof AuthenticatedMessagesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/notifications': {
+      id: '/_authenticated/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/onboarding': {
       id: '/_authenticated/onboarding'
       path: '/onboarding'
       fullPath: '/onboarding'
       preLoaderRoute: typeof AuthenticatedOnboardingRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/proof/$proofId': {
@@ -244,19 +334,36 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UUsernameRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/verify/$proofId': {
+      id: '/_authenticated/verify/$proofId'
+      path: '/verify/$proofId'
+      fullPath: '/verify/$proofId'
+      preLoaderRoute: typeof AuthenticatedVerifyProofIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAddProofRoute: typeof AuthenticatedAddProofRoute
   AuthenticatedHomeRoute: typeof AuthenticatedHomeRoute
+  AuthenticatedMessagesRoute: typeof AuthenticatedMessagesRoute
+  AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
   AuthenticatedOnboardingRoute: typeof AuthenticatedOnboardingRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+  AuthenticatedVerifyProofIdRoute: typeof AuthenticatedVerifyProofIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAddProofRoute: AuthenticatedAddProofRoute,
   AuthenticatedHomeRoute: AuthenticatedHomeRoute,
+  AuthenticatedMessagesRoute: AuthenticatedMessagesRoute,
+  AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
   AuthenticatedOnboardingRoute: AuthenticatedOnboardingRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+  AuthenticatedVerifyProofIdRoute: AuthenticatedVerifyProofIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =
