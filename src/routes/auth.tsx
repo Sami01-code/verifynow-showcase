@@ -86,7 +86,7 @@ function AuthPage() {
         await supabase
           .from("profiles")
           .update({ name: parsed.name, country: parsed.country, city: parsed.city })
-          .eq("id", data.user!.id);
+          .eq("id", data.session.user.id);
         toast.success("Account created");
         navigate({ to: "/onboarding" });
         return;
